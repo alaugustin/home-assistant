@@ -1,0 +1,39 @@
+esphome:
+  name: 037-basement-esp
+  friendly_name: 037 Basement ESP
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret ha_api_uuid
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "037-Basement-Esp"
+    password: !secret wifi_ap_password
+
+captive_portal:
+
+### WEB SERVER ###
+web_server:
+  port: 80
+
+### BLE BEACON ###
+esp32_ble_beacon:
+  type: iBeacon
+  uuid: !secret beacon_uuid
