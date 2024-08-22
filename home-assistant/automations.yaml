@@ -1,699 +1,916 @@
-- id: "1720370561156"
+- id: '1720370561156'
   alias: Den Occupancy Lights On
-  description:
-    Automatically turns on the den lights when the occupancy sensor detects
+  description: Automatically turns on the den lights when the occupancy sensor detects
     movement.
   trigger:
-    - type: occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
+  - type: occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
+    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    domain: binary_sensor
   condition: []
   action:
-    - service: light.turn_on
-      target:
-        area_id:
-          - den
-      data: {}
+  - service: light.turn_on
+    target:
+      area_id:
+      - den
+    data: {}
   mode: single
-- id: "1720370649300"
+- id: '1720370649300'
   alias: Den No Occupancy Lights Off
-  description:
-    This automation gradually dims the den lights over 5 seconds before
+  description: This automation gradually dims the den lights over 5 seconds before
     turning them off when no movement is detected for 5 minutes.
   trigger:
-    - type: not_occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
-  condition:
-    - type: is_no_motion
-      condition: device
-      device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
-      entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
-      domain: binary_sensor
-      for:
-        hours: 0
-        minutes: 15
-        seconds: 0
+  - type: not_occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
+  - type: no_motion
+    platform: device
+    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
+    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
   action:
-    - service: light.turn_off
-      target:
-        area_id: den
-      data:
-        transition: 5
+  - service: light.turn_off
+    target:
+      area_id: den
+    data:
+      transition: 5
   mode: single
-- id: "1720370696884"
+- id: '1720370696884'
   alias: Studio Occupancy Lights On
-  description:
-    This automation turns on the studio lights when the occupancy sensor
+  description: This automation turns on the studio lights when the occupancy sensor
     detects movement.
   trigger:
-    - type: occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
+  - type: occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
   condition: []
   action:
-    - service: light.turn_on
-      target:
-        area_id: studio
-      data: {}
+  - service: light.turn_on
+    target:
+      area_id: studio
+    data: {}
   mode: single
-- id: "1720370724666"
+- id: '1720370724666'
   alias: Studio No Occupancy Lights Off
-  description:
-    This automation turns off the studio lights when the occupancy sensor
+  description: This automation turns off the studio lights when the occupancy sensor
     detects no movement for 5 minutes.
   trigger:
-    - type: not_occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
+  - type: not_occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
   condition: []
   action:
-    - service: light.turn_off
-      target:
-        area_id:
-          - studio
-      data: {}
+  - service: light.turn_off
+    target:
+      area_id:
+      - studio
+    data: {}
   mode: single
-- id: "1720370762592"
+- id: '1720370762592'
   alias: 037 Office Occupancy Infrastructure On
-  description:
-    Turns on the lights and infrastructure in the 037 office when occupancy
+  description: Turns on the lights and infrastructure in the 037 office when occupancy
     is detected.
   trigger:
-    - type: occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
+  - type: occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
+  - type: occupied
+    platform: device
+    device_id: 179ec8e161ccec36c3dccb093b0fe6e0
+    entity_id: 3a7db59e73e6190764b6344eb26a5239
+    domain: binary_sensor
   condition: []
   action:
-    - service: light.turn_on
-      target:
-        area_id:
-          - 037_office
-      data:
-        kelvin: 4850
-        brightness_pct: 50
-    - service: switch.turn_on
-      target:
-        device_id: 709f27c494c9229f93baa5d9aaec5af7
-      data: {}
+  - service: light.turn_on
+    target:
+      area_id:
+      - 037_office
+    data:
+      kelvin: 4850
+      brightness_pct: 50
+  - service: switch.turn_on
+    data: {}
+    target:
+      device_id: 794471cc73ac2803edcfebcd16acce12
   mode: single
-- id: "1720370808958"
+- id: '1720370808958'
   alias: 037 Office No Occupancy Infrastructure Off
-  description:
-    This automation turns off all lights and a specific switch in the office
+  description: This automation turns off all lights and a specific switch in the office
     when no occupancy is detected for 5 minutes.
   trigger:
-    - type: not_occupied
-      platform: device
-      device_id: 17fef94f2504294803950767782ea150
-      entity_id: e573c328b01401514a7b1620da3c6f52
-      domain: binary_sensor
+  - type: not_occupied
+    platform: device
+    device_id: 17fef94f2504294803950767782ea150
+    entity_id: e573c328b01401514a7b1620da3c6f52
+    domain: binary_sensor
+  - type: not_occupied
+    platform: device
+    device_id: 179ec8e161ccec36c3dccb093b0fe6e0
+    entity_id: 3a7db59e73e6190764b6344eb26a5239
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
   condition: []
   action:
-    - service: light.turn_off
-      target:
-        area_id: 037_office
-      data: {}
-    - service: switch.turn_on
-      target:
-        device_id: 709f27c494c9229f93baa5d9aaec5af7
-      data: {}
+  - service: light.turn_off
+    target:
+      area_id: 037_office
+    data: {}
+  - service: switch.turn_on
+    target:
+      device_id:
+      - 794471cc73ac2803edcfebcd16acce12
+    data: {}
   mode: single
-- id: "1720400306990"
+- id: '1720400306990'
   alias: 10:00 Primary BR Lamps On
   description: Turns on the primary bedroom lamps at 10:00 PM with a warm white light.
   trigger:
-    - platform: time
-      at: "22:00:00"
+  - platform: time
+    at: '22:00:00'
   condition: []
   action:
-    - service: light.turn_on
-      target:
-        device_id:
-          - 858d5c8d513b62765ed92c56519df62a
-          - 4aab50fee63867553df4ce29f8036531
-      data:
-        kelvin: 2478
-        brightness_pct: 13
+  - service: light.turn_on
+    target:
+      device_id:
+      - 858d5c8d513b62765ed92c56519df62a
+      - 4aab50fee63867553df4ce29f8036531
+    data:
+      kelvin: 2478
+      brightness_pct: 13
   mode: single
-- id: "1720405045954"
+- id: '1720405045954'
   alias: 10:30 Dim Primary BR Lamps
-  description:
-    This automation gradually dims the primary bedroom lamps over 30 minutes
+  description: This automation gradually dims the primary bedroom lamps over 30 minutes
     before turning them off at 11:00 PM.
   trigger:
-    - platform: time
-      at: "22:30:00"
+  - platform: time
+    at: '22:30:00'
   condition: []
   action:
-    - service: light.turn_on
-      target:
-        device_id:
-          - 858d5c8d513b62765ed92c56519df62a
-          - 4aab50fee63867553df4ce29f8036531
-      data:
-        brightness: 122
-        transition: 1800
-    - delay: 00:30:00
-    - service: light.turn_off
-      target:
-        device_id:
-          - 858d5c8d513b62765ed92c56519df62a
-          - 4aab50fee63867553df4ce29f8036531
-      data:
-        transition: 10
+  - service: light.turn_on
+    target:
+      device_id:
+      - 858d5c8d513b62765ed92c56519df62a
+      - 4aab50fee63867553df4ce29f8036531
+    data:
+      brightness: 122
+      transition: 1800
+  - delay: 00:30:00
+  - service: light.turn_off
+    target:
+      device_id:
+      - 858d5c8d513b62765ed92c56519df62a
+      - 4aab50fee63867553df4ce29f8036531
+    data:
+      transition: 10
   mode: single
-- id: "1720706731074"
+- id: '1720706731074'
   alias: Turn Off Basement Lights After 12:30 if Phone is Charging
-  description:
-    "Turns off all lights in the basement if any are on and the phone is
+  description: 'Turns off all lights in the basement if any are on and the phone is
     charging after 12:30 AM.
 
-    "
+    '
   trigger:
-    - platform: time
-      at: 00:30:00
+  - platform: time
+    at: 00:30:00
   condition:
+  - condition: state
+    entity_id: device_tracker.sm_s918w
+    state: plugged_in
+  - condition: or
+    conditions:
     - condition: state
-      entity_id: device_tracker.sm_s918w
-      state: plugged_in
-    - condition: or
-      conditions:
-        - condition: state
-          entity_id: light.037_office
-          state: "on"
-        - condition: state
-          entity_id: light.studio
-          state: "on"
-        - condition: state
-          entity_id: light.den_light
-          state: "on"
+      entity_id: light.037_office
+      state: 'on'
+    - condition: state
+      entity_id: light.studio
+      state: 'on'
+    - condition: state
+      entity_id: light.den_light
+      state: 'on'
   action:
-    - service: light.turn_off
-      target:
-        entity_id:
-          - light.037_office
-          - light.studio
-          - light.den_light
-      data: {}
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.037_office
+      - light.studio
+      - light.den_light
+    data: {}
   mode: single
-- id: "1721054704351"
+- id: '1721054704351'
   alias: Backup Home Assistant
   description: Backup Home Assistant every night at 3 AM
   trigger:
-    - platform: time
-      at: 03:00:00
+  - platform: time
+    at: 03:00:00
   condition: []
   action:
-    - alias: Create backup now
-      service: hassio.backup_full
-      data:
-        compressed: true
-        homeassistant_exclude_database: false
+  - alias: Create backup now
+    service: hassio.backup_full
+    data:
+      compressed: true
+      homeassistant_exclude_database: false
   mode: single
-- id: "1721230268626"
+- id: '1721230268626'
   alias: Toner Cartridge Notification
-  description:
-    Notify and add a to-do item when the toner cartridge level drops below
+  description: Notify and add a to-do item when the toner cartridge level drops below
     certain thresholds.
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.toner_cartridge_level
-      below: 75
-    - platform: numeric_state
-      entity_id: sensor.toner_cartridge_level
-      below: 50
-    - platform: numeric_state
-      entity_id: sensor.toner_cartridge_level
-      below: 33
-    - platform: numeric_state
-      entity_id: sensor.toner_cartridge_level
-      below: 25
-    - platform: numeric_state
-      entity_id: sensor.toner_cartridge_level
-      below: 10
+  - platform: numeric_state
+    entity_id: sensor.toner_cartridge_level
+    below: 75
+  - platform: numeric_state
+    entity_id: sensor.toner_cartridge_level
+    below: 50
+  - platform: numeric_state
+    entity_id: sensor.toner_cartridge_level
+    below: 33
+  - platform: numeric_state
+    entity_id: sensor.toner_cartridge_level
+    below: 25
+  - platform: numeric_state
+    entity_id: sensor.toner_cartridge_level
+    below: 10
   condition: []
   action:
-    - choose:
-        - conditions:
-            - condition: numeric_state
-              entity_id: sensor.toner_cartridge_level
-              below: 75
-              above: 50
-          sequence:
-            - service: todo.add_item
-              data:
-                item: Toner cartridge less than 75%
-            - service: notify.mobile_app_sm_s918w
-              data:
-                message: Toner cartridge level is below 75%. Please check the toner status.
-            - service: logbook.log
-              data:
-                name: Toner Cartridge Notification
-                message:
-                  "Toner cartridge level dropped below 75% and notification sent.
-                  Timestamp: {{ now() }}"
-        - conditions:
-            - condition: numeric_state
-              entity_id: sensor.toner_cartridge_level
-              below: 50
-              above: 33
-          sequence:
-            - service: todo.add_item
-              data:
-                item: Toner cartridge less than 50%
-            - service: notify.mobile_app_sm_s918w
-              data:
-                message: Toner cartridge level is below 50%. Please check the toner status.
-            - service: logbook.log
-              data:
-                name: Toner Cartridge Notification
-                message:
-                  "Toner cartridge level dropped below 50% and notification sent.
-                  Timestamp: {{ now() }}"
-        - conditions:
-            - condition: numeric_state
-              entity_id: sensor.toner_cartridge_level
-              below: 33
-              above: 25
-          sequence:
-            - service: todo.add_item
-              data:
-                item: Toner cartridge less than 33%
-            - service: notify.mobile_app_sm_s918w
-              data:
-                message: Toner cartridge level is below 33%. Please check the toner status.
-            - service: logbook.log
-              data:
-                name: Toner Cartridge Notification
-                message:
-                  "Toner cartridge level dropped below 33% and notification sent.
-                  Timestamp: {{ now() }}"
-        - conditions:
-            - condition: numeric_state
-              entity_id: sensor.toner_cartridge_level
-              below: 25
-              above: 10
-          sequence:
-            - service: todo.add_item
-              data:
-                item: Toner cartridge less than 25%
-            - service: notify.mobile_app_sm_s918w
-              data:
-                message: Toner cartridge level is below 25%. Please check the toner status.
-            - service: logbook.log
-              data:
-                name: Toner Cartridge Notification
-                message:
-                  "Toner cartridge level dropped below 25% and notification sent.
-                  Timestamp: {{ now() }}"
-        - conditions:
-            - condition: numeric_state
-              entity_id: sensor.toner_cartridge_level
-              below: 10
-          sequence:
-            - service: todo.add_item
-              data:
-                item: Toner cartridge less than 10%
-            - service: notify.mobile_app_sm_s918w
-              data:
-                message: Toner cartridge level is below 10%. Please check the toner status.
-            - service: logbook.log
-              data:
-                name: Toner Cartridge Notification
-                message:
-                  "Toner cartridge level dropped below 10% and notification sent.
-                  Timestamp: {{ now() }}"
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.toner_cartridge_level
+        below: 75
+        above: 50
+      sequence:
+      - service: todo.add_item
+        data:
+          item: Toner cartridge less than 75%
+      - service: notify.mobile_app_sm_s918w
+        data:
+          message: Toner cartridge level is below 75%. Please check the toner status.
+      - service: logbook.log
+        data:
+          name: Toner Cartridge Notification
+          message: 'Toner cartridge level dropped below 75% and notification sent.
+            Timestamp: {{ now() }}'
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.toner_cartridge_level
+        below: 50
+        above: 33
+      sequence:
+      - service: todo.add_item
+        data:
+          item: Toner cartridge less than 50%
+      - service: notify.mobile_app_sm_s918w
+        data:
+          message: Toner cartridge level is below 50%. Please check the toner status.
+      - service: logbook.log
+        data:
+          name: Toner Cartridge Notification
+          message: 'Toner cartridge level dropped below 50% and notification sent.
+            Timestamp: {{ now() }}'
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.toner_cartridge_level
+        below: 33
+        above: 25
+      sequence:
+      - service: todo.add_item
+        data:
+          item: Toner cartridge less than 33%
+      - service: notify.mobile_app_sm_s918w
+        data:
+          message: Toner cartridge level is below 33%. Please check the toner status.
+      - service: logbook.log
+        data:
+          name: Toner Cartridge Notification
+          message: 'Toner cartridge level dropped below 33% and notification sent.
+            Timestamp: {{ now() }}'
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.toner_cartridge_level
+        below: 25
+        above: 10
+      sequence:
+      - service: todo.add_item
+        data:
+          item: Toner cartridge less than 25%
+      - service: notify.mobile_app_sm_s918w
+        data:
+          message: Toner cartridge level is below 25%. Please check the toner status.
+      - service: logbook.log
+        data:
+          name: Toner Cartridge Notification
+          message: 'Toner cartridge level dropped below 25% and notification sent.
+            Timestamp: {{ now() }}'
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.toner_cartridge_level
+        below: 10
+      sequence:
+      - service: todo.add_item
+        data:
+          item: Toner cartridge less than 10%
+      - service: notify.mobile_app_sm_s918w
+        data:
+          message: Toner cartridge level is below 10%. Please check the toner status.
+      - service: logbook.log
+        data:
+          name: Toner Cartridge Notification
+          message: 'Toner cartridge level dropped below 10% and notification sent.
+            Timestamp: {{ now() }}'
   mode: single
-- id: "1721401485096"
-  alias: Set HVAC Mode Based on Season
-  description:
-    "This automation sets the thermostat to heat mode in the fall and winter,
-    and cool mode in the spring and summer.
-
-    "
-  trigger:
-    - platform: state
-      entity_id: sensor.season
-  condition: []
-  action:
-    - choose:
-        - conditions:
-            - condition: or
-              conditions:
-                - condition: state
-                  entity_id: sensor.season
-                  state: spring
-                - condition: state
-                  entity_id: sensor.season
-                  state: summer
-          sequence:
-            - service: climate.set_hvac_mode
-              data:
-                hvac_mode: cool
-              target:
-                entity_id: climate.honeywell_home_thermostat
-        - conditions:
-            - condition: or
-              conditions:
-                - condition: state
-                  entity_id: sensor.season
-                  state: autumn
-                - condition: state
-                  entity_id: sensor.season
-                  state: winter
-          sequence:
-            - service: climate.set_hvac_mode
-              data:
-                hvac_mode: heat
-              target:
-                entity_id: climate.honeywell_home_thermostat
-      default: []
-  mode: single
-- id: "1721678292118"
+- id: '1721678292118'
   alias: Set Thermostat Temperature Based on Work Hours
-  description:
-    "Sets the Honeywell thermostat to 25°C during work hours (9 AM to 5
+  description: 'Sets the Honeywell thermostat to 25°C during work hours (9 AM to 5
     PM, Monday to Friday)  and to 24°C outside of work hours.
 
-    "
+    '
   trigger:
-    - platform: time
-      at: 08:45:00
-    - platform: time
-      at: "17:00:00"
+  - platform: time
+    at: 08:45:00
+  - platform: time
+    at: '17:00:00'
   condition:
-    - condition: time
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
   action:
-    - choose:
-        - conditions:
-            - condition: time
-              after: 08:45:00
-              before: "17:00:00"
-          sequence:
-            - service: climate.set_temperature
-              target:
-                entity_id: climate.honeywell_home_thermostat
-              data:
-                temperature: 25
-        - conditions:
-            - condition: time
-              after: "17:00:00"
-              before: 08:45:00
-          sequence:
-            - service: climate.set_temperature
-              target:
-                entity_id: climate.honeywell_home_thermostat
-              data:
-                temperature: 24
+  - choose:
+    - conditions:
+      - condition: time
+        after: 08:45:00
+        before: '17:00:00'
+      sequence:
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.honeywell_home_thermostat
+        data:
+          temperature: 25
+    - conditions:
+      - condition: time
+        after: '17:00:00'
+        before: 08:45:00
+      sequence:
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.honeywell_home_thermostat
+        data:
+          temperature: 24
   mode: single
-- id: "1721683393607"
-  alias: Open Door, Start Timer
-  description: ""
-  trigger:
-    - type: opened
-      platform: device
-      device_id: 337e080830c3831e567d18ed173e02e4
-      entity_id: b686c3b203ccccd225c587db212d29b4
-      domain: binary_sensor
-    - type: opened
-      platform: device
-      device_id: c509c477e1bcda91af184e2a4219a808
-      entity_id: 0fbb89fa74db931c005b396a60300fb8
-      domain: binary_sensor
-    - type: opened
-      platform: device
-      device_id: 6a14ed070337af036575e61c1615791d
-      entity_id: ed72f4f3f780b820e8af2e4589db8d75
-      domain: binary_sensor
-    - type: opened
-      platform: device
-      device_id: cddb1837126ba53ee4c91dfde22416e1
-      entity_id: 42b42da381144d8d43d8a095d6bf8aea
-      domain: binary_sensor
-  condition: []
-  action:
-    - service: timer.start
-      data:
-        entity_id: timer.door_open
-        duration: 0:30
-  mode: single
-- id: "1721687303604"
+- id: '1721687303604'
   alias: Notify When Entering Home Zone
   description: Sends a notification when entering the home zone.
   trigger:
-    - platform: zone
-      entity_id: device_tracker.sm_s918w
-      zone: zone.home
-      event: enter
+  - platform: zone
+    entity_id: device_tracker.sm_s918w
+    zone: zone.home
+    event: enter
   action:
-    - service: notify.mobile_app_sm_s918w
-      data:
-        message: "\U0001F3E0 Home zone entered"
+  - service: notify.mobile_app_sm_s918w
+    data:
+      message: "\U0001F3E0 Home zone entered"
   mode: single
-- id: "1721687369668"
+- id: '1721687369668'
   alias: Update Person Location
-  description:
-    "Updates the location of the person entity based on the latest device
+  description: 'Updates the location of the person entity based on the latest device
     tracker state.
 
-    "
+    '
   trigger:
-    - platform: state
-      entity_id: device_tracker.sm_s918w
-      attribute: latitude
+  - platform: state
+    entity_id: device_tracker.sm_s918w
+    attribute: latitude
   condition: []
   action:
-    - service: notify.mobile_app_sm_s918w
-      data:
-        message: Person location data set
+  - service: notify.mobile_app_sm_s918w
+    data:
+      message: Person location data set
   mode: single
-- id: "1721827022728"
+- id: '1721827022728'
   alias: Adjust 037 Office Light Brightness Based on Work Hours
-  description:
-    Adjusts the brightness of the 037 Office light when it is turned on
+  description: Adjusts the brightness of the 037 Office light when it is turned on
     based on work hours.
   trigger:
-    - platform: state
-      entity_id: light.037_office
-      to: "on"
+  - platform: state
+    entity_id: light.037_office
+    to: 'on'
   condition: []
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.work_hrs
-              state: "on"
-          sequence:
-            - service: light.turn_on
-              target:
-                entity_id: light.037_office
-              data:
-                brightness_pct: 50
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.work_hrs
-              state: "off"
-          sequence:
-            - service: light.turn_on
-              target:
-                entity_id: light.037_office
-              data:
-                brightness_pct: 25
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.work_hrs
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.037_office
+        data:
+          brightness_pct: 50
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.work_hrs
+        state: 'off'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.037_office
+        data:
+          brightness_pct: 25
   mode: single
-- id: "1721842479728"
-  alias: Timer Completed Action
-  description: Automation to handle timer completion
-  trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.door_open
-  condition: []
-  action:
-    - service: notify.notify
-      data:
-        message: The door has been open for 30 seconds.
-  mode: single
-- id: "1722177065045"
-  alias: "At Church "
-  description: ""
-  trigger:
-    - platform: zone
-      entity_id: device_tracker.boba_s23_ultra
-      zone: zone.rhpc
-      event: enter
-    - platform: zone
-      entity_id: device_tracker.boba_s23_ultra
-      zone: zone.rhpc
-      event: leave
-  condition: []
-  action: []
-  mode: single
-- id: "1722372954807"
+- id: '1722372954807'
   alias: Set HVAC Mode Based on Season at Midnight
-  description:
-    "Sets the HVAC mode based on the current season: heating mode in winter,
+  description: 'Sets the HVAC mode based on the current season: heating mode in winter,
     cooling mode in summer, and heat/cool mode in spring and autumn, every night at
-    midnight."
+    midnight.'
   trigger:
-    - platform: time
-      at: 00:00:00
+  - platform: time
+    at: 00:00:00
   condition: []
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sensor.season
-              state: winter
-          sequence:
-            - service: climate.set_hvac_mode
-              data:
-                hvac_mode: heat
-              target:
-                entity_id: climate.honeywell_home_thermostat
-        - conditions:
-            - condition: state
-              entity_id: sensor.season
-              state: summer
-          sequence:
-            - service: climate.set_hvac_mode
-              data:
-                hvac_mode: cool
-              target:
-                entity_id: climate.honeywell_home_thermostat
-        - conditions:
-            - condition: or
-              conditions:
-                - condition: state
-                  entity_id: sensor.season
-                  state: spring
-                - condition: state
-                  entity_id: sensor.season
-                  state: autumn
-          sequence:
-            - service: climate.set_hvac_mode
-              data:
-                hvac_mode: heat_cool
-              target:
-                entity_id: climate.honeywell_home_thermostat
-      default: []
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.season
+        state: winter
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: heat
+        target:
+          entity_id: climate.honeywell_home_thermostat
+    - conditions:
+      - condition: state
+        entity_id: sensor.season
+        state: summer
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: cool
+        target:
+          entity_id: climate.honeywell_home_thermostat
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: sensor.season
+          state: spring
+        - condition: state
+          entity_id: sensor.season
+          state: autumn
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: heat_cool
+        target:
+          entity_id: climate.honeywell_home_thermostat
+    default: []
   mode: single
-- id: "1722390291169"
+- id: '1722390291169'
   alias: Cold Room Light Control
-  description:
-    This automation turns on the cold room light when the door sensor detects
+  description: This automation turns on the cold room light when the door sensor detects
     that the door is opened, and turns off the light when the door is closed.
   trigger:
-    - platform: state
-      entity_id:
-        - binary_sensor.cold_room_opening_3
-      to: "on"
-    - platform: state
-      entity_id:
-        - binary_sensor.cold_room_opening_3
-      to: "off"
+  - platform: state
+    entity_id:
+    - binary_sensor.cold_room_opening_3
+    to: 'on'
+    id: coldRoomContact.open
+  - platform: state
+    entity_id:
+    - binary_sensor.cold_room_opening_3
+    to: 'off'
+    id: coldRoomContact.closed
   condition: []
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.cold_room_opening_3
-              state: "on"
-          sequence:
-            - type: turn_on
-              device_id: d7645c41a67ab6df9460c0c28d526784
-              entity_id: ff86cd7db96983dffe7ec12b8f9b050f
-              domain: switch
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.cold_room_opening_3
-              state: "off"
-          sequence:
-            - delay: 00:02:30
-              enabled: false
-            - type: turn_off
-              device_id: d7645c41a67ab6df9460c0c28d526784
-              entity_id: ff86cd7db96983dffe7ec12b8f9b050f
-              domain: switch
+  - if:
+    - condition: trigger
+      id:
+      - coldRoomContact.open
+    then:
+    - type: turn_on
+      device_id: d7645c41a67ab6df9460c0c28d526784
+      entity_id: ff86cd7db96983dffe7ec12b8f9b050f
+      domain: switch
+  - if:
+    - condition: trigger
+      id:
+      - coldRoomContact.closed
+    then:
+    - type: turn_off
+      device_id: d7645c41a67ab6df9460c0c28d526784
+      entity_id: ff86cd7db96983dffe7ec12b8f9b050f
+      domain: switch
   mode: single
-- id: "1722828842762"
+- id: '1722828842762'
   alias: AKA 04 RODRET Light Control On
-  description: ""
+  description: ''
   trigger:
-    - device_id: 1535f64a9d82bbec2292e71dbc6af613
-      domain: zha
-      platform: device
-      type: remote_button_short_press
-      subtype: turn_on
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
   condition: []
   action:
-    - type: turn_on
-      device_id: 62abb8675a9728432d9ee22676739cda
-      entity_id: d99b925aa1d8f13d04699f0d40387fd9
-      domain: light
+  - type: turn_on
+    device_id: 62abb8675a9728432d9ee22676739cda
+    entity_id: d99b925aa1d8f13d04699f0d40387fd9
+    domain: light
   mode: single
-- id: "1722828944690"
+- id: '1722828944690'
   alias: AKA 04 RODRET Light Control Off
-  description: ""
+  description: ''
   trigger:
-    - device_id: 1535f64a9d82bbec2292e71dbc6af613
-      domain: zha
-      platform: device
-      type: remote_button_short_press
-      subtype: turn_off
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
   condition: []
   action:
-    - type: turn_off
-      device_id: 62abb8675a9728432d9ee22676739cda
-      entity_id: d99b925aa1d8f13d04699f0d40387fd9
-      domain: light
+  - type: turn_off
+    device_id: 62abb8675a9728432d9ee22676739cda
+    entity_id: d99b925aa1d8f13d04699f0d40387fd9
+    domain: light
   mode: single
-- id: "1722829074165"
+- id: '1722829074165'
   alias: AKA 08 RODRET Light Control On
-  description: ""
+  description: ''
   trigger:
-    - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
-      domain: zha
-      platform: device
-      type: remote_button_short_press
-      subtype: turn_on
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
   condition: []
   action:
-    - type: turn_on
-      device_id: f4c1fe2384bb77af20707adab37617e0
-      entity_id: a180d245f84ec20b9c24a4b7c4dbac84
-      domain: light
+  - type: turn_on
+    device_id: f4c1fe2384bb77af20707adab37617e0
+    entity_id: a180d245f84ec20b9c24a4b7c4dbac84
+    domain: light
   mode: single
-- id: "1722829143284"
+- id: '1722829143284'
   alias: AKA 08 RODRET Light Control Off
-  description: ""
+  description: ''
   trigger:
-    - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
-      domain: zha
-      platform: device
-      type: remote_button_short_press
-      subtype: turn_off
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
   condition: []
   action:
-    - type: turn_off
-      device_id: f4c1fe2384bb77af20707adab37617e0
-      entity_id: a180d245f84ec20b9c24a4b7c4dbac84
-      domain: light
+  - type: turn_off
+    device_id: f4c1fe2384bb77af20707adab37617e0
+    entity_id: a180d245f84ec20b9c24a4b7c4dbac84
+    domain: light
+  mode: single
+- id: '1723160405332'
+  alias: Basement Lighting Control with Styrbar
+  description: Controls the basement lights using the IKEA Styrbar remote. Short press
+    'On' to turn on lights, 'Off' to turn off lights, and long press 'Dim Up' or 'Dim
+    Down' to adjust brightness.
+  trigger:
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: styrbar.on
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
+    id: styrbar.off
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_up
+    id: styrbar.dimUp
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_down
+    id: styrbar.dimDown
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: left
+    id: styrbar.shortLeft
+  - device_id: d84fa5b8ea8b48832a66e8885390bcf3
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: right
+    id: styrbar.shortRight
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: styrbar.on
+    then:
+    - service: light.turn_on
+      target:
+        area_id: basement
+      data: {}
+  - if:
+    - condition: trigger
+      id: styrbar.off
+    then:
+    - service: light.turn_off
+      target:
+        area_id: basement
+      data: {}
+  - if:
+    - condition: trigger
+      id: styrbar.dimUp
+    then:
+    - service: light.turn_on
+      target:
+        floor_id: basement
+      data:
+        brightness_step_pct: 10
+  - if:
+    - condition: trigger
+      id: styrbar.dimDown
+    then:
+    - service: light.turn_on
+      target:
+        floor_id: basement
+      data:
+        brightness_step_pct: -10
+  - if:
+    - condition: trigger
+      id:
+      - styrbar.shortLeft
+    then:
+    - service: light.turn_on
+      target:
+        floor_id: basement
+      data: {}
+  - if:
+    - condition: trigger
+      id:
+      - styrbar.shortRight
+    then:
+    - service: light.turn_on
+      target:
+        floor_id: basement
+      data: {}
+  mode: single
+- id: '1723483657442'
+  alias: AKA 08 RODRET Light Control
+  description: Controls the AKA 08 lights using the IKEA RODRET remote. Short press
+    'On' to turn on lights, 'Off' to turn off lights, and long press 'Dim Up' or 'Dim
+    Down' to adjust brightness.
+  trigger:
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: rodret.on
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
+    id: rodret.off
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_up
+    id: rodret.dimUp
+  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_down
+    id: rodret.dimDown
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id:
+      - rodret.on
+    then:
+    - service: light.turn_on
+      data: {}
+      target:
+        device_id: f4c1fe2384bb77af20707adab37617e0
+  - if:
+    - condition: trigger
+      id:
+      - rodret.off
+    then:
+    - service: light.turn_off
+      data: {}
+      target:
+        device_id: f4c1fe2384bb77af20707adab37617e0
+  - if:
+    - condition: trigger
+      id:
+      - rodret.dimUp
+    then:
+    - service: light.turn_on
+      target:
+        device_id: f4c1fe2384bb77af20707adab37617e0
+      data:
+        brightness_step_pct: 10
+  - if:
+    - condition: trigger
+      id:
+      - rodret.dimDown
+    then:
+    - service: light.turn_on
+      target:
+        device_id: f4c1fe2384bb77af20707adab37617e0
+      data:
+        brightness_step_pct: -10
+  mode: single
+- id: '1723484114623'
+  alias: AKA 04 RODRET Light Control
+  description: Controls the AKA 04 lights using the IKEA RODRET remote. Short press
+    'On' to turn on lights, 'Off' to turn off lights, and long press 'Dim Up' or 'Dim
+    Down' to adjust brightness.
+  trigger:
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: rodret.on
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+    id: rodret.off
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_up
+    id: rodret.dimUp
+  - device_id: 1535f64a9d82bbec2292e71dbc6af613
+    domain: zha
+    platform: device
+    type: remote_button_long_release
+    subtype: dim_down
+    id: rodret.dimDown
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id:
+      - rodret.on
+    then:
+    - service: light.turn_on
+      data: {}
+      target:
+        device_id:
+        - 62abb8675a9728432d9ee22676739cda
+  - if:
+    - condition: trigger
+      id:
+      - rodret.off
+    then:
+    - service: light.turn_off
+      data: {}
+      target:
+        device_id: 62abb8675a9728432d9ee22676739cda
+  - if:
+    - condition: trigger
+      id:
+      - rodret.dimUp
+    then:
+    - service: light.turn_on
+      target:
+        device_id:
+        - 62abb8675a9728432d9ee22676739cda
+      data:
+        brightness_step_pct: 10
+  - if:
+    - condition: trigger
+      id:
+      - rodret.dimDown
+    then:
+    - service: light.turn_on
+      target:
+        device_id:
+        - 62abb8675a9728432d9ee22676739cda
+      data:
+        brightness_step_pct: -10
+  mode: single
+- id: '1723734927597'
+  alias: Notify Above or Below 20°C
+  description: 'This automation triggers when the temperature attribute of the weather.forecast_home
+    entity changes. It sends a notification and speaks a message through the office
+    media player when the temperature goes above 20°C or drops below 20°C. The message
+    includes the current temperature and the weather condition.
+
+    '
+  trigger:
+  - platform: state
+    entity_id:
+    - weather.forecast_home
+    attribute: temperature
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: weather.forecast_home
+        above: 30
+        attribute: temperature
+      sequence:
+      - service: notify.mobile_app_sm_s918w
+        metadata: {}
+        data:
+          data: {}
+          message: "\U0001F321️ The current temperature is above 30°C at {{ state_attr('weather.forecast_home',
+            'temperature') }}°C."
+    - conditions:
+      - condition: numeric_state
+        entity_id: weather.forecast_home
+        above: 20
+        attribute: temperature
+        below: 30
+      sequence:
+      - service: notify.mobile_app_sm_s918w
+        metadata: {}
+        data:
+          data: {}
+          message: ☀️ The current temperature is above 20°C at {{ state_attr('weather.forecast_home',
+            'temperature') }}°C.
+    - conditions:
+      - condition: numeric_state
+        entity_id: weather.forecast_home
+        attribute: temperature
+        above: 10
+        below: 20
+      sequence:
+      - service: notify.mobile_app_sm_s918w
+        metadata: {}
+        data:
+          message: "\U0001F324️ The current temperature is below 20°C at {{ state_attr('weather.forecast_home',
+            'temperature') }}°C."
+          data: {}
+    - conditions:
+      - condition: numeric_state
+        entity_id: weather.forecast_home
+        attribute: temperature
+        above: 5
+        below: 10
+      sequence:
+      - service: notify.mobile_app_sm_s918w
+        metadata: {}
+        data:
+          message: "\U0001F324️ The current temperature is below 10°C at {{ state_attr('weather.forecast_home',
+            'temperature') }}°C."
+          data: {}
+    - conditions:
+      - condition: numeric_state
+        entity_id: weather.forecast_home
+        below: 5
+        attribute: temperature
+      sequence:
+      - service: notify.mobile_app_sm_s918w
+        metadata: {}
+        data:
+          data: {}
+          message: ❄️ The current temperature is below 5°C at {{ state_attr('weather.forecast_home',
+            'temperature') }}°C.
   mode: single
