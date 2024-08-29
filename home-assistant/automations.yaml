@@ -8,11 +8,17 @@
     device_id: 17fef94f2504294803950767782ea150
     entity_id: e573c328b01401514a7b1620da3c6f52
     domain: binary_sensor
-  - type: motion
+    enabled: false
+  - type: occupied
     platform: device
-    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
-    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    device_id: c35f088796698dfdd69ccc97d701b93d
+    entity_id: cc6becdfd51bfba520883bc2857ca72b
     domain: binary_sensor
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.den_presence
+    to: 'on'
   condition: []
   action:
   - service: light.turn_on
@@ -31,15 +37,17 @@
     device_id: 17fef94f2504294803950767782ea150
     entity_id: e573c328b01401514a7b1620da3c6f52
     domain: binary_sensor
-  - type: no_motion
+    enabled: false
+  - type: not_occupied
     platform: device
-    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
-    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    device_id: c35f088796698dfdd69ccc97d701b93d
+    entity_id: cc6becdfd51bfba520883bc2857ca72b
     domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 15
-      seconds: 0
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.den_presence
+    to: 'off'
   condition: []
   action:
   - service: light.turn_off
@@ -93,11 +101,17 @@
     device_id: 17fef94f2504294803950767782ea150
     entity_id: e573c328b01401514a7b1620da3c6f52
     domain: binary_sensor
+    enabled: false
   - type: occupied
     platform: device
     device_id: 179ec8e161ccec36c3dccb093b0fe6e0
     entity_id: 3a7db59e73e6190764b6344eb26a5239
     domain: binary_sensor
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.037_office_presence
+    to: 'on'
   condition: []
   action:
   - service: light.turn_on
@@ -122,6 +136,7 @@
     device_id: 17fef94f2504294803950767782ea150
     entity_id: e573c328b01401514a7b1620da3c6f52
     domain: binary_sensor
+    enabled: false
   - type: not_occupied
     platform: device
     device_id: 179ec8e161ccec36c3dccb093b0fe6e0
@@ -131,13 +146,18 @@
       hours: 0
       minutes: 0
       seconds: 0
+    enabled: false
+  - platform: state
+    entity_id:
+    - binary_sensor.037_office_presence
+    to: 'off'
   condition: []
   action:
   - service: light.turn_off
     target:
       area_id: 037_office
     data: {}
-  - service: switch.turn_on
+  - service: switch.turn_off
     target:
       device_id:
       - 794471cc73ac2803edcfebcd16acce12
@@ -412,38 +432,6 @@
     data:
       message: Person location data set
   mode: single
-- id: '1721827022728'
-  alias: Adjust 037 Office Light Brightness Based on Work Hours
-  description: Adjusts the brightness of the 037 Office light when it is turned on
-    based on work hours.
-  trigger:
-  - platform: state
-    entity_id: light.037_office
-    to: 'on'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.work_hrs
-        state: 'on'
-      sequence:
-      - service: light.turn_on
-        target:
-          entity_id: light.037_office
-        data:
-          brightness_pct: 50
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.work_hrs
-        state: 'off'
-      sequence:
-      - service: light.turn_on
-        target:
-          entity_id: light.037_office
-        data:
-          brightness_pct: 25
-  mode: single
 - id: '1722372954807'
   alias: Set HVAC Mode Based on Season at Midnight
   description: 'Sets the HVAC mode based on the current season: heating mode in winter,
@@ -527,70 +515,6 @@
       device_id: d7645c41a67ab6df9460c0c28d526784
       entity_id: ff86cd7db96983dffe7ec12b8f9b050f
       domain: switch
-  mode: single
-- id: '1722828842762'
-  alias: AKA 04 RODRET Light Control On
-  description: ''
-  trigger:
-  - device_id: 1535f64a9d82bbec2292e71dbc6af613
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_on
-  condition: []
-  action:
-  - type: turn_on
-    device_id: 62abb8675a9728432d9ee22676739cda
-    entity_id: d99b925aa1d8f13d04699f0d40387fd9
-    domain: light
-  mode: single
-- id: '1722828944690'
-  alias: AKA 04 RODRET Light Control Off
-  description: ''
-  trigger:
-  - device_id: 1535f64a9d82bbec2292e71dbc6af613
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_off
-  condition: []
-  action:
-  - type: turn_off
-    device_id: 62abb8675a9728432d9ee22676739cda
-    entity_id: d99b925aa1d8f13d04699f0d40387fd9
-    domain: light
-  mode: single
-- id: '1722829074165'
-  alias: AKA 08 RODRET Light Control On
-  description: ''
-  trigger:
-  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_on
-  condition: []
-  action:
-  - type: turn_on
-    device_id: f4c1fe2384bb77af20707adab37617e0
-    entity_id: a180d245f84ec20b9c24a4b7c4dbac84
-    domain: light
-  mode: single
-- id: '1722829143284'
-  alias: AKA 08 RODRET Light Control Off
-  description: ''
-  trigger:
-  - device_id: bf2ffdbd3fe81eb7780a52b6ad397315
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_off
-  condition: []
-  action:
-  - type: turn_off
-    device_id: f4c1fe2384bb77af20707adab37617e0
-    entity_id: a180d245f84ec20b9c24a4b7c4dbac84
-    domain: light
   mode: single
 - id: '1723160405332'
   alias: Basement Lighting Control with Styrbar
@@ -835,18 +759,17 @@
         brightness_step_pct: -10
   mode: single
 - id: '1723734927597'
-  alias: Notify Above or Below 20°C
-  description: 'This automation triggers when the temperature attribute of the weather.forecast_home
-    entity changes. It sends a notification and speaks a message through the office
-    media player when the temperature goes above 20°C or drops below 20°C. The message
-    includes the current temperature and the weather condition.
+  alias: Hourly Temperature Notifications
+  description: 'This automation triggers at midnight and then every hour, sending
+    a notification with the current temperature and weather condition. Notifications
+    are sent when the temperature goes above 30°C
 
     '
   trigger:
-  - platform: state
-    entity_id:
-    - weather.forecast_home
-    attribute: temperature
+  - platform: time
+    at: 00:00:00
+  - platform: time_pattern
+    hours: /1
   condition: []
   action:
   - choose:
@@ -860,7 +783,7 @@
         metadata: {}
         data:
           data: {}
-          message: "\U0001F321️ The current temperature is above 30°C at {{ state_attr('weather.forecast_home',
+          message: "\U0001F321️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C."
     - conditions:
       - condition: numeric_state
@@ -873,7 +796,7 @@
         metadata: {}
         data:
           data: {}
-          message: ☀️ The current temperature is above 20°C at {{ state_attr('weather.forecast_home',
+          message: ☀️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C.
     - conditions:
       - condition: numeric_state
@@ -885,7 +808,7 @@
       - service: notify.mobile_app_sm_s918w
         metadata: {}
         data:
-          message: "\U0001F324️ The current temperature is below 20°C at {{ state_attr('weather.forecast_home',
+          message: "\U0001F324️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C."
           data: {}
     - conditions:
@@ -898,7 +821,7 @@
       - service: notify.mobile_app_sm_s918w
         metadata: {}
         data:
-          message: "\U0001F324️ The current temperature is below 10°C at {{ state_attr('weather.forecast_home',
+          message: "\U0001F324️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C."
           data: {}
     - conditions:
@@ -911,6 +834,6 @@
         metadata: {}
         data:
           data: {}
-          message: ❄️ The current temperature is below 5°C at {{ state_attr('weather.forecast_home',
+          message: ❄️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C.
   mode: single
