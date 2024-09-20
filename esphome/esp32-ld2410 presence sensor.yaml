@@ -1,12 +1,20 @@
 #Define Project
 substitutions:
-  name: "*** DEVICE NAME HERE ***"
-  device_description: ${name} "OPTIONAL"
+  api_encryption_key: "tcbH6dUN3d8RrQcRzFrL8kJ6LCEr9Qf24hrZN7y5H7P="
+  dev_board: ESP32
+  device_description: Human Presence Sensor
+  location: Sensor Location
+  name: 037-office-esp32
+  ota_password: "TyZr73gWE2978232e19048vohE74UBhS"
+  sensor: LD2450
+  wifi_ap_password: "Ulz4WLV2gFR5"
+  wifi_ap_ssid: "Sensor-Location-Esp32 Hotspot"
+  esphome_comment: "ESP32 device configured with an LD2450 sensor for precise presence detection and tracking in the ${location}. This setup supports multiple zones, target tracking, and integrates with Home Assistant for automation based on occupancy."
 
 esphome:
   name: "${name}"
-  friendly_name: FRIENDLY NAME
-  comment: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  friendly_name: ${location} ${dev_board} ${sensor} ${device_description}
+  comment: ${esphome_comment}
 
 esp32:
   board: esp32dev
@@ -20,10 +28,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret api_encryption_key
+    key: ${api_encryption_key}
 
 ota:
-  password: !secret ota_password
+  - platform: esphome
+    password: ${ota_password}
 
 wifi:
   ssid: !secret wifi_ssid
@@ -31,8 +40,8 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "FALLBACK HOTSPOT NAME"
-    password: !secret ap_ssid_password
+    ssid: ${wifi_ap_ssid}
+    password: ${wifi_ap_password}
 
 captive_portal:
 
@@ -44,13 +53,13 @@ captive_portal:
 
 external_components:
   - source: github://pr#5674
-    components: [ ld2450 ]
+    components: [ld2450]
     refresh: 0s
 
 uart:
   id: ld2450_uart
-  tx_pin:  GPIO17
-  rx_pin:  GPIO16
+  tx_pin: GPIO17
+  rx_pin: GPIO16
   baud_rate: 256000
   parity: NONE
   stop_bits: 1
