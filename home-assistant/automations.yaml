@@ -3,58 +3,34 @@
   description: Automatically turns on the den lights when the occupancy sensor detects
     movement.
   trigger:
-  - type: occupied
-    platform: device
-    device_id: 17fef94f2504294803950767782ea150
-    entity_id: e573c328b01401514a7b1620da3c6f52
-    domain: binary_sensor
-    enabled: false
-  - type: occupied
-    platform: device
-    device_id: c35f088796698dfdd69ccc97d701b93d
-    entity_id: cc6becdfd51bfba520883bc2857ca72b
-    domain: binary_sensor
-    enabled: false
   - platform: state
     entity_id:
     - binary_sensor.den_presence
     to: 'on'
   condition: []
   action:
-  - service: light.turn_on
-    target:
+  - target:
       area_id:
       - den
     data: {}
+    action: light.turn_on
   mode: single
 - id: '1720370649300'
   alias: Den No Occupancy Lights Off
   description: This automation gradually dims the den lights over 5 seconds before
     turning them off when no movement is detected for 5 minutes.
   trigger:
-  - type: not_occupied
-    platform: device
-    device_id: 17fef94f2504294803950767782ea150
-    entity_id: e573c328b01401514a7b1620da3c6f52
-    domain: binary_sensor
-    enabled: false
-  - type: not_occupied
-    platform: device
-    device_id: c35f088796698dfdd69ccc97d701b93d
-    entity_id: cc6becdfd51bfba520883bc2857ca72b
-    domain: binary_sensor
-    enabled: false
   - platform: state
     entity_id:
     - binary_sensor.den_presence
     to: 'off'
   condition: []
   action:
-  - service: light.turn_off
-    target:
+  - target:
       area_id: den
     data:
       transition: 5
+    action: light.turn_off
   mode: single
 - id: '1720370696884'
   alias: Studio Occupancy Lights On
@@ -96,18 +72,6 @@
   description: Turns on the lights and infrastructure in the 037 office when occupancy
     is detected.
   trigger:
-  - type: occupied
-    platform: device
-    device_id: 17fef94f2504294803950767782ea150
-    entity_id: e573c328b01401514a7b1620da3c6f52
-    domain: binary_sensor
-    enabled: false
-  - type: occupied
-    platform: device
-    device_id: 179ec8e161ccec36c3dccb093b0fe6e0
-    entity_id: 3a7db59e73e6190764b6344eb26a5239
-    domain: binary_sensor
-    enabled: false
   - platform: state
     entity_id:
     - binary_sensor.037_office_presence
@@ -131,22 +95,6 @@
   description: This automation turns off all lights and a specific switch in the office
     when no occupancy is detected for 5 minutes.
   trigger:
-  - type: not_occupied
-    platform: device
-    device_id: 17fef94f2504294803950767782ea150
-    entity_id: e573c328b01401514a7b1620da3c6f52
-    domain: binary_sensor
-    enabled: false
-  - type: not_occupied
-    platform: device
-    device_id: 179ec8e161ccec36c3dccb093b0fe6e0
-    entity_id: 3a7db59e73e6190764b6344eb26a5239
-    domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
-    enabled: false
   - platform: state
     entity_id:
     - binary_sensor.037_office_presence
@@ -836,4 +784,140 @@
           data: {}
           message: ❄️ The current temperature is {{ state_attr('weather.forecast_home',
             'temperature') }}°C.
+  mode: single
+- id: '1725038356618'
+  alias: ❄️ Advanced Cooling Control
+  description: ''
+  use_blueprint:
+    path: panhans/heating_control.yaml
+    input:
+      input_trvs:
+      - climate.honeywell_home_thermostat
+      input_temperature_comfort_static: 24
+      input_hvac_mode: cool
+      input_temperature_minimum_static: 25
+      input_windows:
+      - binary_sensor.deck_door_contact_opening_2
+      - binary_sensor.front_door_contact_opening
+      - binary_sensor.garage_door_contact_opening
+- id: '1725038460970'
+  alias: Low Battery Notifications & Actions
+  description: ''
+  use_blueprint:
+    path: Blackshome/low-battery-notifications-and-actions.yaml
+    input:
+      include_easy_notify: enable_easy_okay_notify
+      notify_device:
+      - e8270760ef130cc01e93b293c9d28386
+- id: '1725038547713'
+  alias: Smart Light
+  description: ''
+  use_blueprint:
+    path: Blackshome/smart-light.yaml
+    input:
+      include_dynamic_lighting: enable_sun_elevation_colour_brightness
+      include_entity_state: []
+      light_switch:
+        floor_id:
+        - basement
+        - first_floor
+        - second_floor
+- id: '1725489042025'
+  alias: Living Room Lights Control
+  description: Controls lights in living room based on occupancy and time of day
+  trigger:
+  - platform: device
+    device_id: 4ec9d9f174e78e1dba23bbb85388812a
+    entity_id: 267f40c8e9c2aff0712fca6bb1ff34a0
+    domain: binary_sensor
+    type: occupied
+    id: livingRoom.occupied
+  - platform: device
+    device_id: 4ec9d9f174e78e1dba23bbb85388812a
+    entity_id: 267f40c8e9c2aff0712fca6bb1ff34a0
+    domain: binary_sensor
+    type: not_occupied
+    id: livingRoom.notOccupied
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id:
+      - livingRoom.occupied
+    then:
+    - service: light.turn_on
+      data: {}
+      target:
+        area_id: living_room
+    enabled: false
+  - if:
+    - condition: trigger
+      id:
+      - livingRoom.notOccupied
+    then: []
+    enabled: false
+  - choose:
+    - conditions:
+      - condition: time
+        after: 06:00:00
+        before: '23:59:59'
+      sequence:
+      - if:
+        - condition: trigger
+          id:
+          - livingRoom.occupied
+        then:
+        - service: light.turn_on
+          data: {}
+          target:
+            area_id: living_room
+      - if:
+        - condition: trigger
+          id:
+          - livingRoom.notOccupied
+        then:
+        - service: light.turn_off
+          target:
+            area_id: living_room
+          data: {}
+  mode: single
+- id: '1726453721363'
+  alias: Garage Smart Plug On Triggered By Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
+    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 48e533bcecc50ed7de2580ba1e61db25
+    entity_id: 861231e6ae6a7120f7adc14707af6388
+    domain: switch
+  mode: single
+- id: '1726453797204'
+  alias: Garage Smart Plug Off Triggered By Motion
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: b4c41e6cb90129f70ee2cbb24a7e2bcf
+    entity_id: 4bfd110eaa8c1f24f3f453864ed00ea8
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 48e533bcecc50ed7de2580ba1e61db25
+    entity_id: 861231e6ae6a7120f7adc14707af6388
+    domain: switch
   mode: single
